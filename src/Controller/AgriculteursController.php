@@ -39,7 +39,7 @@ class AgriculteursController extends AbstractController
         return new JsonResponse(['message'=>'Agriculteur supprimer'], Response::HTTP_OK);
     }
 
-    #[Route('/agriculteurs/creer', name:'creerAgriculteur', methods:['POST'])]
+    #[Route('/agriculteurs', name:'creerAgriculteur', methods:['POST'])]
     public function creerAgriculteur(Request $request,SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator)
     {
         $agriculteur = $serializer->deserialize($request->getContent(), Agriculteurs::class, 'json');
@@ -48,7 +48,7 @@ class AgriculteursController extends AbstractController
 
         $jsonAgriculteur = $serializer->serialize($agriculteur, 'json', ['groups'=>'getAgriculteurs']);
 
-        $location = $urlGenerator->generate('detailAgriculteur',['id'=>$agriculteur->getId()], urlGeneratorInterface::ABSOLUTE_URL);
+        $location = $urlGenerator->generate('get_agri_list',['id'=>$agriculteur->getId()], urlGeneratorInterface::ABSOLUTE_URL);
 
         return new JsonResponse($jsonAgriculteur, Response::HTTP_CREATED, ["Location"=>$location], true);
     }
