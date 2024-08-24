@@ -22,7 +22,7 @@ class Agriculteurs
      * @var list<string> The user roles
      */
     #[ORM\Column]
-    private $roles = [];
+    private array $roles = [];
     
     /**
      * @var string The hashed password

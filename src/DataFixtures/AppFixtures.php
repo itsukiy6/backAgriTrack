@@ -23,12 +23,20 @@ class AppFixtures extends Fixture
         $agriculteur = new Agriculteurs();
         $agriculteur->setEmail('agriculteur@gmail.com');
         $agriculteur->setTel('0781777759');
-        $agriculteur->setRoles(['ROLE_USER']);
+        $agriculteur->setPassword('password');
+        $agriculteur->setRoles(['ROLE_Agriculteur']);
+        
+        $agriculteur1 = new Agriculteurs();
+        $agriculteur1->setEmail('agriculteur2@gmail.com');
+        $agriculteur1->setTel('0781777760');
+        $agriculteur1->setPassword('password');
+        $agriculteur1->setRoles(['ROLE_Agriculteur']);
 
-        $agriculteur->setPassword($this->userPasswordHasher->hashPassword($agriculteur, "password" ));
+        // $agriculteur->setPassword($this->userPasswordHasher->hashPassword( $agriculteur, "password" ));
         
 
         $manager->persist($agriculteur);
+        $manager->persist($agriculteur1);
 
         $manager->flush();
     }

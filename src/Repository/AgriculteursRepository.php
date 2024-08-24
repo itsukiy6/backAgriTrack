@@ -18,18 +18,19 @@ class AgriculteursRepository extends ServiceEntityRepository
         parent::__construct($registry, Agriculteurs::class);
     }
 
-    public function upgradePassword(PasswordAuthenticatedUserInterface $agriculteur, string $newHashedPassword): void
-    {
-        if (!$agriculteur instanceof Agriculteurs)
-        {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $agriculteur::class));
+    
+    // public function upgradePassword(PasswordAuthenticatedUserInterface $agriculteur, string $newHashedPassword): void
+    // {
+    //     if (!$agriculteur instanceof Agriculteurs)
+    //     {
+    //         throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', $agriculteur::class));
 
-        }
+    //     }
 
-        $agriculteur->setPassword($newHashedPassword);
-        $this->getEntityManager()->persist($agriculteur);
-        $this->getEntityManager()->flush();
-    }
+    //     $agriculteur->setPassword($newHashedPassword);
+    //     $this->getEntityManager()->persist($agriculteur);
+    //     $this->getEntityManager()->flush();
+    // }
     //    /**
     //     * @return Agriculteurs[] Returns an array of Agriculteurs objects
     //     */
