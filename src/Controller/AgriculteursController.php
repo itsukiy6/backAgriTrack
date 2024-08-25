@@ -31,6 +31,18 @@ class AgriculteursController extends AbstractController
         
     }
 
+    #[Route('/agriculteurs/{id}', name:'detailAgriculteur', methods:['GET'])]
+    public function getDetailAgriculteur(int $id, SerializerInterface $serializer, AgriculteursRepository $repo): JsonResponse
+    {
+        $agriculteur = $repo->find($id);
+        if($agriculteur)
+        {
+            $jsonAgriculteur=$serializer->serialize($agriculteur,'json');
+            return new JsonResponse($jsonAgriculteur, Response::HTTP_OK,[],true);
+        }
+        return new JsonResponse(null, Response::HTTP_NOT_FOUND);
+    }
+
     #[Route('/agriculteurs/{id}', name: 'deleteAgriculteur', methods:['DELETE'])]
     public function deleteAgriculteur(Agriculteurs $agriculteur, EntityManagerInterface $em): JsonResponse
     {
