@@ -5,21 +5,26 @@ namespace App\Controller;
 use App\Entity\Agriculteurs;
 use App\Repository\AgriculteursRepository;
 use Doctrine\ORM\EntityManagerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
+
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class AgriculteursController extends AbstractController
 {
     private $repository;
+
     public function __construct(AgriculteursRepository $repository)
     {
     $this->repository = $repository;
+    
     }
 
     #[Route('/agriculteurs', name: 'get_agri_list', methods: ['GET'])]
@@ -48,7 +53,7 @@ class AgriculteursController extends AbstractController
     {
         $em->remove($agriculteur);
         $em->flush();
-        return new JsonResponse(['message'=>'Agriculteur supprimer'], Response::HTTP_OK);
+        return new JsonResponse(['message'=>'Agriculteur supprimé'], Response::HTTP_OK);
     }
 
     #[Route('/agriculteurs', name:'creerAgriculteur', methods:['POST'])]
@@ -60,11 +65,9 @@ class AgriculteursController extends AbstractController
 
         $jsonAgriculteur = $serializer->serialize($agriculteur, 'json', ['groups'=>'getAgriculteurs']);
 
-        $location = $urlGenerator->generate('get_agri_list',['id'=>$agriculteur->getId()], urlGeneratorInterface::ABSOLUTE_URL);
+        $location = $urlGenerator->generate('detailAgriculteur',['id'=>$agriculteur->getId()], urlGeneratorInterface::ABSOLUTE_URL);
 
         return new JsonResponse($jsonAgriculteur, Response::HTTP_CREATED, ["Location"=>$location], true);
     }
-
-
 
 }
