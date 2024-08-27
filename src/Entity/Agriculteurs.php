@@ -6,9 +6,10 @@ use App\Repository\AgriculteursRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation\Groups;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: AgriculteursRepository::class)]
-class Agriculteurs
+class Agriculteurs implements PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -23,15 +24,7 @@ class Agriculteurs
     
     private $email = null;
     
-    // /**
-    //  * @var list<string> The user roles
-    //  */
-    // #[ORM\Column]
-    // private array $roles = [];
-    
-    /**
-     * @var string The hashed password
-     */
+
     #[Groups(["getAgriculteurs"])]
     #[ORM\Column]
     private $password = null;
@@ -40,24 +33,6 @@ class Agriculteurs
     #[ORM\Column]
     private $tel = null;
 
-    // #[ORM\Column]
-    // private ?string $plainPassword = null;
-
-    // /**
-    //  * Get value of plainPassword
-    //  */
-    // public function getPlainPassword()
-    // {
-    //     return $this->plainPassword;
-    // }
-    // /**
-    //  * Set the value
-    //  * @return self
-    //  */
-    // public function setPlainPassword($plainPassword)
-    // {
-    //     $this->plainPassword = $plainPassword;
-    // }
 
     public function getId(): ?int
     {

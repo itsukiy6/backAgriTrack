@@ -20,10 +20,12 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AgriculteursController extends AbstractController
 {
     private $repository;
-
-    public function __construct(AgriculteursRepository $repository)
+    private UserPasswordHasherInterface $hasher;
+    public function __construct(AgriculteursRepository $repository, UserPasswordHasherInterface $hasher)
     {
     $this->repository = $repository;
+
+    $this->hasher = $hasher;
     
     }
 
@@ -55,11 +57,14 @@ class AgriculteursController extends AbstractController
         $em->flush();
         return new JsonResponse(['message'=>'Agriculteur supprimé'], Response::HTTP_OK);
     }
+ 
 
     #[Route('/agriculteurs', name:'creerAgriculteur', methods:['POST'])]
     public function creerAgriculteur(Request $request,SerializerInterface $serializer, EntityManagerInterface $em, UrlGeneratorInterface $urlGenerator)
     {
         $agriculteur = $serializer->deserialize($request->getContent(), Agriculteurs::class, 'json');
+        $hashPassword = $this->hasher->hashPassword($agriculteur,'password');
+        $agriculteur->setPassword($hashPassword);
         $em->persist($agriculteur);
         $em->flush();
 
